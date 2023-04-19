@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Flow</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <img src="/static/logo.png" alt="Logo" id="logo">
+        <h1>Fish Flow</h1>
+        <button id="start-recording">Start Recording</button>
+    </header>
+    <div id="chat">
+        <div id="messages">
+            <div class="message message-input">Example input 1</div>
+            <div class="message message-response">Example response 1</div>
+            <div class="message message-input">Example input 2</div>
+            <div class="message message-response">Example response 2</div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "speech-to-text-chat",
+  "version": "0.0.1",
+  "description": "A web app that records speech and displays the text in a chat-style fashion.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.3.2"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbenif/speech-to-text-chat.git"
+  },
+  "author": "Beni Froelich <bbenif@gmail.com>",
+  "license": "MIT"
+}
