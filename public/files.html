@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Tree</title>
+  <style>
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Files in this Session</h1>
+  <div id="file-tree"></div>
+
+  <script>
+    const fileTree = document.getElementById('file-tree');
+
+    const createTree = (files) => {
+      const ul = document.createElement('ul');
+
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `/session/${file}`;
+        a.textContent = file;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+
+      return ul;
+    };
+
+    fetch('/files')
+      .then((response) => response.json())
+      .then((files) => {
+        const tree = createTree(files);
+        fileTree.appendChild(tree);
+      });
+  </script>
+</body>
+</html>
