@@ -20,9 +20,7 @@ COPY ./python-backend/environment.yml .
 RUN conda env create -f environment.yml
 SHELL ["conda", "run", "-n", "tester", "/bin/bash", "-c"]
 RUN pip install "git+https://github.com/openai/whisper.git"
-RUN python -c "import whisper"
-
-
+RUN python -c "import whisper; model = whisper.load_model('tiny.en' )"
 
 
 # Set the working directory
