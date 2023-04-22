@@ -15,15 +15,18 @@ socket.on('message', (message) => {
     messages.scrollTop = messages.scrollHeight;
 });
 
-socket.on('new-text', (message) => {
-    //document.getElementById('input-field').textContent = message;
+socket.on('chat-inp', (message) => {
     const inp = document.createElement('div', '');
     inp.textContent = message;
     inp.classList.add('message');
     inp.classList.add('message-input');
     document.getElementById('messages').appendChild(inp);
+
+});
+
+socket.on('chat-res', (message) => {
     const outp = document.createElement('div', '');
-    outp.textContent = "You said '" + message + "'";
+    outp.textContent =  message ;
     outp.classList.add('message');
     outp.classList.add('message-response');
     document.getElementById('messages').appendChild(outp);
@@ -45,7 +48,7 @@ async function toggleRecording() {
       mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus', audioBitsPerSecond: 64000 });
       const audioChunks = [];
 
-      const sendAudioChunk = () => {
+      const sendAudioChunk = (isLastChunk = false) => {
         if (audioChunks.length) {
           const audioBlob = new Blob(audioChunks);
           const reader = new FileReader();
@@ -53,10 +56,17 @@ async function toggleRecording() {
           reader.onloadend = (event) => {
             const buffer = event.target.result;
             socket.emit("audio", buffer);
+            
+            if (isLastChunk) {
+              socket.emit('done-audio');
+            }
           };
           audioChunks.length = 0;
+        } else if (isLastChunk) {
+          socket.emit('done-audio');
         }
       };
+
 
       mediaRecorder.addEventListener("dataavailable", (event) => {
         audioChunks.push(event.data);
@@ -64,12 +74,12 @@ async function toggleRecording() {
       });
 
       mediaRecorder.addEventListener("stop", () => {
-        sendAudioChunk();
+        sendAudioChunk(true); // Pass true to indicate that this is the last chunk
         recording_btn.classList.remove("recording");
-        socket.emit('done-audio');
       });
 
-      mediaRecorder.start(500); // Start recording and emit "dataavailable" event every 0.5 seconds
+
+      mediaRecorder.start(100); // Start recording and emit "dataavailable" event every 0.5 seconds
     } catch (err) {
       console.error("Error while accessing the microphone:", err);
     }
